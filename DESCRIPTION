@@ -1,0 +1,56 @@
+Package: scMatchmaker
+Title: Single Cell Matchmaker
+Version: 0.99.0
+Description: Identify cell-cell ligand receptor interactions in single cell data using Earth Mover's Distance.
+Authors@R: 
+    person(given = "Steve X",
+           family = "Niu",
+           role = c("aut", "cre"),
+           email = "niuxsteve@gmail.com")
+Maintainer: Steve X Niu <niuxsteve@gmail.com>
+BugReports: https://github.com/stevexniu/scMatchmaker/issues
+Depends: R (>= 3.5.0)
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Collate: 
+    'RcppExports.R'
+    'data.R'
+    'utils.R'
+    'emd.R'
+    'processing.R'
+    'matchmake.R'
+    'matchmaker-class.R'
+    'plot.R'
+    'zzz.R'
+LinkingTo: 
+    Rcpp,
+    RcppEigen,
+    RcppProgress
+Imports: 
+    cowplot, 
+    doParallel,
+    emdist,
+    fields,
+    foreach,
+    ggplot2 (>= 3.3.0),
+    gplots,
+    igraph,
+    irlba,
+    magrittr,
+    Matrix,
+    matrixStats,
+    methods,
+    parallel,
+    qgraph,
+    RColorBrewer,
+    Rcpp (>= 0.11.0),
+    reshape2,
+    reticulate,
+    seriation
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr

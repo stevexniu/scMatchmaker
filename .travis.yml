@@ -1,0 +1,36 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+cache: packages
+sudo: false
+warnings_are_errors: false
+
+os:
+  - osx
+  - linux
+
+r: 
+  - release
+  - devel
+
+matrix:
+  exclude:
+    - r: devel
+      os: osx
+
+script:
+  - R CMD build --no-build-vignettes --no-manual .
+  - R CMD check --no-build-vignettes --no-manual *tar.gz
+
+# for codecov
+r_packages:
+  - covr
+
+# only report coverage after build is successful
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
