@@ -203,12 +203,11 @@ randomIdents <- function(idents, n = 100, seed = 1){
 #' @param matrix A matrix. 
 #' @param order.dist Distance measure to be used. Default is "minkowski". See details \code{\link[stats]{dist}}.
 #' @param p Power of Minkowski distance Default is 1, aka Manhattan distance. See details \code{\link[stats]{dist}}.
-#' @param seed Random seed number. Default is 1.
 #' @param return.order Whether to return the matrix order. Default is FALSE.
 #' @return Returns a matrix or list containing ordered matrix.
 #' @details See \code{\link[seriation]{seriate}}.
 #' @importFrom seriation seriate permute 
-orderMatrix <- function(matrix, order.dist = "minkowski", p = 1, seed = 1, return.order = FALSE){
+orderMatrix <- function(matrix, order.dist = "minkowski", p = 1, return.order = FALSE){
   order.use <- c(
     seriate(x = dist(x = matrix, method = order.dist, p = p)),
     seriate(x = dist(x = t(x = matrix), method = order.dist, p = p))

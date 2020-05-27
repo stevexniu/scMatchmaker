@@ -10,7 +10,7 @@ scMatchmaker
 
 Installation
 ------------
-v0.99.0
+scMatchmaker v0.99.0
 
 	install.packages("devtools")
 	devtools::install_github("stevexniu/scMatchmaker")
@@ -21,4 +21,4 @@ See tutorial here:
 [scMatchmaker vignette](https://github.com/stevexniu/scMatchmaker/blob/master/vignettes/vignette.Rmd)
 
 
-© [Steve X. Niu](https://github.com/stevexniu)
+© [Steve Niu](https://github.com/stevexniu) [Landau Lab](https://www.landaulab.org)

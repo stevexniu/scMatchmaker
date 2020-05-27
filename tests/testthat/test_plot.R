@@ -6,8 +6,6 @@ library(vdiffr)
 test_that("Test spot plot", {
   test.plot <- PlotSpot(decidua.small, which.cell = 1:4, which.gene = 1:8, order = FALSE, do.return = FALSE)
   expect_doppelganger("PlotSpot Strength", test.plot)
-  test.plot <- PlotSpot(decidua.small, which.cell = 1:4, which.gene = 1:8, aggregate = "cell", order = FALSE, counted = TRUE, do.return = FALSE)
-  expect_doppelganger("PlotSpot By Cell", test.plot)
   test.plot <- PlotSpot(decidua.small, aggregate = "gene", order = FALSE, counted = TRUE, do.return = FALSE)
   expect_doppelganger("PlotSpot By Gene", test.plot)
   test.plot <- PlotSpot(decidua.small, order = FALSE, do.return = FALSE, type = "bar")
@@ -17,8 +15,6 @@ test_that("Test spot plot", {
 test_that("Test heatmap plot", {
   test.plot <- function() PlotHeatmap(decidua.small, which.cell = 1:4, which.gene = 1:8, order = FALSE, mar = c(12,12))
   expect_doppelganger("PlotHeatmap Strength", test.plot)
-  test.plot <- function() PlotHeatmap(decidua.small, aggregate = "cell", order = FALSE, mar = c(12,12))
-  expect_doppelganger("PlotHeatmap By Cell", test.plot)
   test.plot <- function() PlotHeatmap(decidua.small, aggregate = "gene", order = FALSE, mar = c(12,12))
   expect_doppelganger("PlotHeatmap By Gene", test.plot)
 })

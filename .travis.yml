@@ -27,16 +27,6 @@ script:
   - R CMD build --no-build-vignettes --no-manual .
   - R CMD check --no-build-vignettes --no-manual *tar.gz
 
-before_install:
-    - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-    - chmod 755 ./travis-tool.sh
-
-script:
-  - ./travis-tool.sh run_tests
-
-after_failure:
-  - ./travis-tool.sh dump_logs
-
 after_success:
   - travis_wait Rscript -e 'covr::codecov()'
 
