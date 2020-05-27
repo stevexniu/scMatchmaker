@@ -4,7 +4,13 @@
 \alias{orderMatrix}
 \title{Order Matrix}
 \usage{
-orderMatrix(matrix, order.dist = "minkowski", p = 1, return.order = FALSE)
+orderMatrix(
+  matrix,
+  order.dist = "minkowski",
+  p = 1,
+  seed = 1,
+  return.order = FALSE
+)
 }
 \arguments{
 \item{matrix}{A matrix.}
@@ -12,6 +18,8 @@ orderMatrix(matrix, order.dist = "minkowski", p = 1, return.order = FALSE)
 \item{order.dist}{Distance measure to be used. Default is "minkowski". See details \code{\link[stats]{dist}}.}
 
 \item{p}{Power of Minkowski distance Default is 1, aka Manhattan distance. See details \code{\link[stats]{dist}}.}
+
+\item{seed}{Random seed number. Default is 1.}
 
 \item{return.order}{Whether to return the matrix order. Default is FALSE.}
 }

@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/stevexniu/scMatchmaker.svg?token=iHVpVeRXbeQojczYszVy&branch=master)](https://travis-ci.com/github/stevexniu/scMatchmaker)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/stevexniu/scMatchmaker?branch=master&svg=true)](https://ci.appveyor.com/project/stevexniu/scMatchmaker)
-[![CRAN Version](https://www.r-pkg.org/badges/version/scMatchmaker)](https://cran.r-project.org/package= scMatchmaker)
+[![CRAN Version](https://www.r-pkg.org/badges/version/scMatchmaker)](https://cran.r-project.org/package=scMatchmaker)
 [![codecov.io](https://img.shields.io/codecov/c/github/stevexniu/scMatchmaker.svg)](https://codecov.io/github/stevexniu/scMatchmaker?branch=master)
 
 scMatchmaker

@@ -320,8 +320,7 @@ PlotScatter <- function(object, ident1, ident2, ligands, receptors, use_raw = TR
 #' @importFrom cowplot theme_cowplot
 #' @importFrom ggplot2 ggplot geom_bar scale_fill_gradientn aes_string facet_grid xlab ylab theme theme_minimal element_blank element_text geom_point scale_size scale_color_gradientn 
 spotPlot <- function(interact.strength, interact.pval, which.cell = NULL, which.gene = NULL, aggregate = c("none", "row", "column"), counted = FALSE, color = "RdBu", color.bins = 7, type = c("dot", "bar"),
-                     order = FALSE, order.dist = "minkowski", p = 1, filter = FALSE, low.cutoff = -Inf, high.cutoff = Inf, dot.scale = 8,
-                     plot.y.axis = TRUE, fix.y.axis = TRUE, do.return = FALSE){
+                     order = FALSE, order.dist = "minkowski", p = 1, filter = FALSE, low.cutoff = -Inf, high.cutoff = Inf, dot.scale = 8, plot.y.axis = TRUE, fix.y.axis = TRUE, do.return = FALSE){
   if(!is.null(x = which.cell)){
     interact.strength <- as.matrix(x = interact.strength)[which.cell, ,drop = FALSE]
     interact.pval <-  as.matrix(x = interact.pval)[which.cell, ,drop = FALSE]
