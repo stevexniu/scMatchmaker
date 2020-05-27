@@ -144,64 +144,6 @@ Normalization <- function(counts, normalization = c("logTPM", "cosine", "none"),
   return(normalized.data)
 }
 
-#' Filter Interaction Data
-#'
-#' Filter interaction data based on interacting strength and p value cutoffs.
-#' 
-#' @keywords internal
-#' @param interact.strength Interaction strength matrix.
-#' @param interact.pval Interaction p-value matrix.
-#' @param interaction.meta Interaction metadata with first two columns as interaction partners matching interact.strength and interact.pval data.
-#' @param pval.cutoff p value cutoff. Default is 0.05.
-#' @param strength.pct Top strength quantile to select. Default is 0.1 aka the top 10\%.
-#' @param filter.cells Whether to filter the cells. Default is TRUE.
-#' @return Returns a list containing filtered interaction strength, p value matrix and merged interaction data.
-#' @importFrom Matrix rowSums colSums
-filterInteractions <- function(interact.strength, interact.pval, interaction.meta, pval.cutoff = 0.05, strength.pct = 0.1, filter.cells = TRUE){
-  filtered.str <- matrix(data = 0, nrow = nrow(x = interact.strength), ncol = ncol(x = interact.strength), dimnames = dimnames(x = interact.strength))
-  filtered.str[as.matrix(x = interact.strength) >= quantile(x = as.matrix(x = interact.strength), probs = 1-strength.pct)] <- 1
-  filtered.pval <- matrix(data = 0, nrow = nrow(x = interact.pval), ncol = ncol(x = interact.pval), dimnames = dimnames(x = interact.pval))
-  filtered.pval[interact.pval <= pval.cutoff] <- 1
-  filtered.id <- filtered.pval * filtered.str
-  interact.strength.new <- filtered.id * interact.strength
-  interact.pval.new <- filtered.id * interact.pval
-  interact.strength.new <- interact.strength.new[, which(x = colSums(x = filtered.id) != 0), drop = FALSE]
-  interact.pval.new <- interact.pval.new[, which(x = colSums(x = filtered.id) != 0), drop = FALSE]
-  interaction.meta <- interaction.meta[which(x = colSums(x = filtered.id) != 0), , drop = FALSE]
-  if(filter.cells){
-    interact.strength.new <- interact.strength.new[which(x = rowSums(x = filtered.id) != 0),,drop = FALSE]
-    interact.pval.new <- interact.pval.new[which(x = rowSums(x = filtered.id) != 0),,drop = FALSE]
-  }
-  row.order <- order(rowSums(x = interact.strength.new), decreasing = TRUE)
-  col.order <- order(colSums(x = interact.strength.new), decreasing = TRUE)
-  interact.strength.new <- interact.strength.new[row.order, col.order, drop = FALSE]
-  interact.pval.new <- interact.pval.new[row.order, col.order, drop = FALSE]
-  interaction.meta <- interaction.meta[col.order, ,drop = FALSE]
-  merge.data <- cbind.data.frame(interaction.meta, t(x = as.matrix(x = interact.strength.new)), row.names = 1:nrow(x = interaction.meta))
-  return(list(strength = interact.strength.new, 
-              pvalues = interact.pval.new,
-              merge.data = merge.data))
-}
-
-#' Convert Interaction Matrix
-#'
-#' Convert interaction matrix into a molten data frame. Interactions with zero strenghth will be removed.
-#' 
-#' @keywords internal
-#' @param interact.strength Interaction strength matrix.
-#' @param interact.pval Interaction p-value matrix.
-#' @return Returns a molten data frame.
-#' @importFrom reshape2 melt
-convertData <- function(interact.strength, interact.pval){
-  strength.df <- data.frame(melt(data = as.matrix(interact.strength), varnames = c("interactions", "pairs"), value.name = "strength"))
-  pval.df <- data.frame(melt(data = as.matrix(interact.pval), varnames = c("interactions", "pairs"), value.name = "pval"))
-  merge.df <- cbind.data.frame(strength.df, pval = pval.df$pval)
-  merge.df <- merge.df[order(merge.df$strength, merge.df$pval, decreasing = TRUE),]
-  merge.df <- merge.df[which(x = merge.df$strength > 0), ]
-  rownames(x = merge.df) <- 1:nrow(x = merge.df)
-  return(merge.df)
-}
-
 #' Data Scaling
 #'
 #' Scale and center data.
@@ -261,4 +203,115 @@ geomSketch <- function(data, geom_size = 1000, n_pca = 10, scale = TRUE, seed = 
   message("Run Geometric Sketch")
   sketch.ind <- unlist(x = geosketch$gs(pca.res$u, as.integer(x = geom_size))) + 1
   return(sketch.ind)
+}
+
+#' Match the Names of Inteactions Pairs in Expression Data.
+#'
+#' Match and filter the expression data and interacton pairs.
+#'
+#' @keywords internal
+#' @param data Expression data. A d x M matrix with d rows of features and M columns of data points (cells).
+#' @param pairs Interaction pair data with at least two columns indicating gene-gene interaction partners.
+#' @param partner_a Column name or index for interaction partner a. Defaulte is 1, the first column in interaction pair data.
+#' @param partner_b Column name or index for interaction partner b. Defaulte is 2, the second column in interaction pairs data.
+#' @return Returns a list with filtered expression data and interaction pairs.
+matchNames <- function(data, pairs, partner_a = 1, partner_b = 2){
+  features <- rownames(x = data)
+  partner.A <- as.character(x = pairs[, partner_a])
+  partner.B <- as.character(x = pairs[, partner_b])
+  partner.all <- unique(x = c(partner.A, partner.B))
+  partner.A.in <- partner.A %in% features
+  partner.B.in <- partner.B %in% features
+  partner.all.in <- apply(X = cbind(partner.A.in,partner.A.in), MARGIN = 1, FUN = all)
+  if(!any(partner.all.in)) stop("No interaction pair found", call. = FALSE)
+  partner.detected <- partner.all[partner.all %in% features]
+  partner.not.detected <- partner.all[!partner.all %in% features]
+  data <- data[partner.detected, ]
+  if(length(x = partner.not.detected) > 0){
+    message("Partners: ",paste(partner.not.detected, collapse = ", "),
+            " not detected.\nThey will be mannually added to the data.")
+    partner.add <- matrix(0, nrow = length(x = partner.not.detected), ncol = ncol(x = data), 
+                          dimnames = list(partner.not.detected, colnames(x = data)))
+    data <- rbind(data, partner.add)
+  } 
+  return(list(data = data, pairs = pairs))
+} 
+
+#' Check Cell Identity in Data
+#'
+#' Check if cell identities provided matched to the single cell data and reorder them. Any identity name with "_: will be subsituted as ".".
+#'
+#' @keywords internal
+#' @param data Expression data. A d x M matrix with d rows of features and M columns of data points (cells).
+#' @param idents Cell type identity in characters or factors. 
+#' @return Returns the checked identity.
+checkIdents <- function(data, idents){
+  if(length(x = idents) != ncol(x = data)) stop("Idents provided don't match the number of cells.", call. = FALSE)
+  if(any(is.na(x = idents))) stop("NA value detected in idents.", call. = FALSE)
+  if(!is.null(x = names(idents))){
+    if(!all(names(x = idents) %in% colnames(x = data))) stop("Ident names don't match the cell names.", call. = FALSE)
+    idents <- idents[colnames(x = data)]
+  }
+  message("Replace names containing _ and | with .")
+  idents <- gsub(pattern = "_|[|]", replacement = ".", x = idents)
+  idents <- as.factor(x = idents)
+  return(idents)
+}
+
+#' Filter Interaction Data
+#'
+#' Filter interaction data based on interacting strength and p value cutoffs.
+#' 
+#' @keywords internal
+#' @param interact.strength Interaction strength matrix.
+#' @param interact.pval Interaction p-value matrix.
+#' @param interaction.meta Interaction metadata with first two columns as interaction partners matching interact.strength and interact.pval data.
+#' @param pval.cutoff p value cutoff. Default is 0.05.
+#' @param strength.pct Top strength quantile to select. Default is 0.1 aka the top 10\%.
+#' @param filter.cells Whether to filter the cells. Default is TRUE.
+#' @return Returns a list containing filtered interaction strength, p value matrix and merged interaction data.
+#' @importFrom Matrix rowSums colSums
+filterInteractions <- function(interact.strength, interact.pval, interaction.meta, pval.cutoff = 0.05, strength.pct = 0.1, filter.cells = TRUE){
+  filtered.str <- matrix(data = 0, nrow = nrow(x = interact.strength), ncol = ncol(x = interact.strength), dimnames = dimnames(x = interact.strength))
+  filtered.str[as.matrix(x = interact.strength) >= quantile(x = as.matrix(x = interact.strength), probs = 1-strength.pct)] <- 1
+  filtered.pval <- matrix(data = 0, nrow = nrow(x = interact.pval), ncol = ncol(x = interact.pval), dimnames = dimnames(x = interact.pval))
+  filtered.pval[interact.pval <= pval.cutoff] <- 1
+  filtered.id <- filtered.pval * filtered.str
+  interact.strength.new <- filtered.id * interact.strength
+  interact.pval.new <- filtered.id * interact.pval
+  interact.strength.new <- interact.strength.new[, which(x = colSums(x = filtered.id) != 0), drop = FALSE]
+  interact.pval.new <- interact.pval.new[, which(x = colSums(x = filtered.id) != 0), drop = FALSE]
+  interaction.meta <- interaction.meta[which(x = colSums(x = filtered.id) != 0), , drop = FALSE]
+  if(filter.cells){
+    interact.strength.new <- interact.strength.new[which(x = rowSums(x = filtered.id) != 0),,drop = FALSE]
+    interact.pval.new <- interact.pval.new[which(x = rowSums(x = filtered.id) != 0),,drop = FALSE]
+  }
+  row.order <- order(rowSums(x = interact.strength.new), decreasing = TRUE)
+  col.order <- order(colSums(x = interact.strength.new), decreasing = TRUE)
+  interact.strength.new <- interact.strength.new[row.order, col.order, drop = FALSE]
+  interact.pval.new <- interact.pval.new[row.order, col.order, drop = FALSE]
+  interaction.meta <- interaction.meta[col.order, ,drop = FALSE]
+  merge.data <- cbind.data.frame(interaction.meta, t(x = as.matrix(x = interact.strength.new)), row.names = 1:nrow(x = interaction.meta))
+  return(list(strength = interact.strength.new, 
+              pvalues = interact.pval.new,
+              merge.data = merge.data))
+}
+
+#' Convert Interaction Matrix
+#'
+#' Convert interaction matrix into a molten data frame. Interactions with zero strenghth will be removed.
+#' 
+#' @keywords internal
+#' @param interact.strength Interaction strength matrix.
+#' @param interact.pval Interaction p-value matrix.
+#' @return Returns a molten data frame.
+#' @importFrom reshape2 melt
+convertData <- function(interact.strength, interact.pval){
+  strength.df <- data.frame(melt(data = as.matrix(interact.strength), varnames = c("interactions", "pairs"), value.name = "strength"))
+  pval.df <- data.frame(melt(data = as.matrix(interact.pval), varnames = c("interactions", "pairs"), value.name = "pval"))
+  merge.df <- cbind.data.frame(strength.df, pval = pval.df$pval)
+  merge.df <- merge.df[order(merge.df$strength, merge.df$pval, decreasing = TRUE),]
+  merge.df <- merge.df[which(x = merge.df$strength > 0), ]
+  rownames(x = merge.df) <- 1:nrow(x = merge.df)
+  return(merge.df)
 }

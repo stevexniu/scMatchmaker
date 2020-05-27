@@ -84,59 +84,6 @@ filterMatrix <- function(matrix, low.cutoff = -Inf, high.cutoff = Inf){
   return(matrix)
 }
 
-#' Match the Names of Inteactions Pairs in Expression Data.
-#'
-#' Match and filter the expression data and interacton pairs.
-#'
-#' @keywords internal
-#' @param data Expression data. A d x M matrix with d rows of features and M columns of data points (cells).
-#' @param pairs Interaction pair data with at least two columns indicating gene-gene interaction partners.
-#' @param partner_a Column name or index for interaction partner a. Defaulte is 1, the first column in interaction pair data.
-#' @param partner_b Column name or index for interaction partner b. Defaulte is 2, the second column in interaction pairs data.
-#' @return Returns a list with filtered expression data and interaction pairs.
-matchNames <- function(data, pairs, partner_a = 1, partner_b = 2){
-  features <- rownames(x = data)
-  partner.A <- as.character(x = pairs[, partner_a])
-  partner.B <- as.character(x = pairs[, partner_b])
-  partner.all <- unique(x = c(partner.A, partner.B))
-  partner.A.in <- partner.A %in% features
-  partner.B.in <- partner.B %in% features
-  partner.all.in <- apply(X = cbind(partner.A.in,partner.A.in), MARGIN = 1, FUN = all)
-  if(!any(partner.all.in)) stop("No interaction pair found", call. = FALSE)
-  partner.detected <- partner.all[partner.all %in% features]
-  partner.not.detected <- partner.all[!partner.all %in% features]
-  data <- data[partner.detected, ]
-  if(length(x = partner.not.detected) > 0){
-    message("Partners: ",paste(partner.not.detected, collapse = ", "),
-            " not detected.\nThey will be mannually added to the data.")
-    partner.add <- matrix(0, nrow = length(x = partner.not.detected), ncol = ncol(x = data), 
-                          dimnames = list(partner.not.detected, colnames(x = data)))
-    data <- rbind(data, partner.add)
-  } 
-  return(list(data = data, pairs = pairs))
-} 
-
-#' Check Cell Identity in Data
-#'
-#' Check if cell identities provided matched to the single cell data and reorder them. Any identity name with "_: will be subsituted as ".".
-#'
-#' @keywords internal
-#' @param data Expression data. A d x M matrix with d rows of features and M columns of data points (cells).
-#' @param idents Cell type identity in characters or factors. 
-#' @return Returns the checked identity.
-checkIdents <- function(data, idents){
-  if(length(x = idents) != ncol(x = data)) stop("Idents provided don't match the number of cells.", call. = FALSE)
-  if(any(is.na(x = idents))) stop("NA value detected in idents.", call. = FALSE)
-  if(!is.null(x = names(idents))){
-    if(!all(names(x = idents) %in% colnames(x = data))) stop("Ident names don't match the cell names.", call. = FALSE)
-    idents <- idents[colnames(x = data)]
-  }
-  message("Replace names containing _ and | with .")
-  idents <- gsub(pattern = "_|[|]", replacement = ".", x = idents)
-  idents <- as.factor(x = idents)
-  return(idents)
-}
-
 #' Merge Two List
 #'
 #' Merge twp lists by the name of their elements.
