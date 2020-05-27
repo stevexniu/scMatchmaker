@@ -11,5 +11,5 @@ It allows users to input customized interaction information or load the CellPhon
 and provides essential visualization tools.
 }
 \details{
-Please see the vignette for an introduction to the package.
+See \href{https://github.com/stevexniu/scMatchmaker/blob/master/vignettes/vignette.Rmd}{vignette}  for an introduction to the package.
 }

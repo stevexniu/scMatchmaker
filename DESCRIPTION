@@ -1,12 +1,16 @@
 Package: scMatchmaker
 Title: Single Cell Matchmaker
 Version: 0.99.0
-Description: Identify cell-cell ligand receptor interactions in single cell data using Earth Mover's Distance.
-Authors@R: 
+Description: Identify cell-cell ligand-receptor interactions in single cell data using Earth Mover's Distance.
+Authors@R: c(
     person(given = "Steve X",
            family = "Niu",
            role = c("aut", "cre"),
-           email = "niuxsteve@gmail.com")
+           email = "niuxsteve@gmail.com"),
+    person(given = "Dan A",
+           family = "Landau",
+           role = "aut",
+           email = "dlandau@nygenome.org"))
 Maintainer: Steve X Niu <niuxsteve@gmail.com>
 BugReports: https://github.com/stevexniu/scMatchmaker/issues
 Depends: R (>= 3.5.0)
@@ -32,7 +36,6 @@ Imports:
     cowplot, 
     doParallel,
     emdist,
-    fields,
     foreach,
     ggplot2 (>= 3.3.0),
     gplots,
@@ -52,5 +55,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    vdiffr,
+    covr
 VignetteBuilder: knitr
