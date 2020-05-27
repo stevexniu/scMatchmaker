@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.com/stevexniu/scMatchmaker.svg?token=iHVpVeRXbeQojczYszVy&branch=master)](https://travis-ci.com/github/stevexniu/scMatchmaker)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/stevexniu/scMatchmaker?branch=master&svg=true)](https://ci.appveyor.com/project/stevexniu/scMatchmaker)
-[![codecov.io](https://img.shields.io/codecov/c/github/stevexniu/scMatchmaker.svg)](https://codecov.io/github/stevexniu/scMatchmaker?branch=master)
+[![codecov](https://codecov.io/gh/stevexniu/scMatchmaker/branch/master/graph/badge.svg?token=LsMOwlNUgP)](https://codecov.io/gh/stevexniu/scMatchmaker)
+
 
 scMatchmaker
 =======
