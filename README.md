@@ -6,11 +6,11 @@
 scMatchmaker
 =======
 
-> An R package for discovering cell-cell interactions in single cell RNA-seq using Earth Mover's Distance.
+> An R package for discovering cell-cell interactions in single cell RNA-seq.
 
 Installation
 ------------
-scMatchmaker v0.99.0
+scMatchmaker Version 0.99
 
 	install.packages("devtools")
 	devtools::install_github("stevexniu/scMatchmaker")
@@ -21,4 +21,4 @@ See tutorial here:
 [scMatchmaker vignette](https://github.com/stevexniu/scMatchmaker/blob/master/vignettes/vignette.Rmd)
 
 
-© [Steve Niu](https://github.com/stevexniu) [Landau Lab](https://www.landaulab.org)
+© [Steve Niu](https://github.com/stevexniu) and [Landau Lab](https://www.landaulab.org) 

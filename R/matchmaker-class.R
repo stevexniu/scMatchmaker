@@ -39,7 +39,7 @@ setClassUnion(name = 'matrices', members = c("matrix", "dgCMatrix", "dsCMatrix")
 #'   \item unmerged_pvalue, unmerged interaction p-values if Merging function is called.
 #'   \item ..., additional slots for future use.
 #'   }
-#' @slot command Nested list of commands used.
+#' @slot command Nested list of commands and scMatchmaker version used.
 #' @name Matchmaker-class
 #' @rdname Matchmaker-class
 #' @exportClass Matchmaker

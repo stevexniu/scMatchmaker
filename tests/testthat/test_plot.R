@@ -1,4 +1,5 @@
 # Test for plot
+skip_if(getRversion() > 4.0)
 context("Test Plot")
 load("../testdata/decidua.small.rda")
 library(vdiffr)

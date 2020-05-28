@@ -10,6 +10,8 @@ os:
   - linux
 
 r:
+  - oldrel
+  - release
   - devel
 
 r_packages:
@@ -24,11 +26,7 @@ matrix:
 
 script:
   - R CMD build --no-build-vignettes --no-manual .
-  - if [ ${TRAVIS_R_VERSION_STRING} = 'release']; then 
-        R CMD check --no-build-vignettes --no-manual *tar.gz;
-    else
-        R CMD check --no-build-vignettes --no-manual --no-tests *tar.gz;
-    fi
+  - R CMD check --no-build-vignettes --no-manual *tar.gz
 
 after_success:
   - travis_wait Rscript -e 'covr::codecov()'

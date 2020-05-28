@@ -19,7 +19,7 @@ NULL
 #' @param zero_percent Zero-entry percentage threshold. If the number of zero entries in the returned matrices is above this number, a sparse matrix will be returned. Default is 0.7 aka 70\%.
 #' @return Returns a Matchmaker object.
 #' @importFrom methods new
-#' @importFrom utils read.csv
+#' @importFrom utils read.csv packageVersion
 #' @export
 #' @examples \dontrun{
 #' object <- Screening(data = data.use, annotation = idents.use, interaction = interaction.data)
@@ -46,6 +46,7 @@ Screening <- function(data, annotation, interaction, partner_a = 1, partner_b = 
   data.pairs <- matchNames(data = raw.data, pairs = interaction, partner_a = partner_a, partner_b = partner_b)
   object <- new(Class = "Matchmaker", data = data.pairs$data, interaction = data.pairs$pairs, annotation = annotation, project_name = project_name, misc = list(raw_data = raw.data))
   object@command$Screening <- logCommand(pos = 1:3)
+  object@command$Version <- packageVersion(pkg = "scMatchmaker")
   return(object)
 }
 

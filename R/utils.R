@@ -30,7 +30,7 @@ rowScale <- function(mat, scale_max = 10) {
   row.means <- rowMeans2(x = mat)
   row.sds <- rowSds(x = mat, center = row.means)
   mat <- (mat - row.means) / row.sds
-  mat <- pmin(mat, scale_max, na.rm = FALSE)
+  mat <- pmin(mat, scale_max, na.rm = TRUE)
   return(mat)
 }
 
