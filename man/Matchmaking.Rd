@@ -19,6 +19,7 @@ Matchmaking(
   max_emd_pct = 1,
   drop_zero = FALSE,
   cutoff.stats = NA,
+  save.perm = FALSE,
   n_cores = NULL,
   seed = 1
 )
@@ -59,6 +60,8 @@ Matchmaking(
 \item{drop_zero}{Whether to drop all the zeros in the data when calculating EMD. Default is FALSE.}
 
 \item{cutoff.stats}{Cutoff used to calculate the statistics (mean or median). Default is NA. If set to 0, all 0 values will be removed when calculating mean or median.}
+
+\item{save.perm}{Whether to save permutation result. Default is FALSE.}
 
 \item{n_cores}{Number of cores used. Default is to use all cores - 1. See details \code{\link[parallel]{makeCluster}}.}
 

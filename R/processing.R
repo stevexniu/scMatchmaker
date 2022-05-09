@@ -41,6 +41,8 @@ LoadCellPhoneDB <- function(interaction_input, gene_input, complex_input, gene.s
   }
   # CellPhoneDB error in hgnc_symbol P01344
   gene_input[which(gene_input[[gene.symbol]] == ""), gene.symbol] <- gene_input[which(gene_input[[gene.symbol]] == ""), "gene_name"]
+  # CellPhoneDB error in hgnc_symbol P01258
+  gene_input[which(gene_input[["uniprot"]] == "P01258"), c("hgnc_symbol", "gene_name")] <- "CALC"
   # CellPhoneDB error in HLA uniprot
   hla.uniprot <- c("P04439", "P01889", "P10321", "P20036", "P04440", "P05538", "P01911")
   names(x = hla.uniprot) <- c("HLAA", "HLAB", "HLAC", "HLADPA1", "HLADPB1", "HLADQB2", "HLADRB1")

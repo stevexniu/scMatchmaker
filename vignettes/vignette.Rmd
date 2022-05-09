@@ -102,9 +102,7 @@ head(x = interaction.data)
 # Let's look at the first six rows of the preloaded CellPhoneDB interaction list.
 head(x = cellphonedb)
 ```
-
 </details>
-\  
 
 ### Identify Cell-Cell Interactions with Matchmaking
 

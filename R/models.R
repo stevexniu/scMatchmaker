@@ -209,6 +209,7 @@ calcEMD <- function(data, idents, ligand, receptor, nbins = 100, weighted = TRUE
 #' @param max_pct Earth Movre's Distance Values above this percentile will be replaced with this percentile value. Default is 1.
 #' @param drop_zero Whether to drop all the zeros in the data when calculating EMD. Default is FALSE.
 #' @param cutoff.stats Cutoff used to calculate the statistics (mean or median). Default is NA. If set to 0, all 0 values will be removed when calculating mean or median.
+#' @param return.perm Whether to return the permutation result. Default is FALSE.
 #' @param n_cores Number of cores used. Default is to use all cores - 1. See details \code{\link[parallel]{makeCluster}}.
 #' @param seed Random seed number for permutation. Default is 1.
 #' @return Returns a list contains interaction strength and pvalues, optionally the null strength and Earth Mover's Distance similarity.
@@ -217,7 +218,7 @@ calcEMD <- function(data, idents, ligand, receptor, nbins = 100, weighted = TRUE
 #' @importFrom magrittr %>% divide_by
 #' @importFrom foreach foreach %dopar%
 findInteractions <- function(data, idents, ligand, receptor, stats = c("mean", "median"), pair.fxn = c("+", "*"),  n_perm = 100, emd = FALSE, nbins = 100, weighted = TRUE,
-                             p.adjust.method = "none", threshold = 0, min_pct = 0, max_pct = 1, drop_zero = FALSE, cutoff.stats = NA, n_cores = NULL, seed = 1){
+                             p.adjust.method = "none", threshold = 0, min_pct = 0, max_pct = 1, drop_zero = FALSE, cutoff.stats = NA, return.perm = FALSE, n_cores = NULL, seed = 1){
   message("Calculating Interaction Strength")
   stats.null <- findInteractions.single(data = data, idents = idents, ligand = ligand, receptor = receptor,
                                         stats = stats, pair.fxn = pair.fxn, threshold = threshold, cutoff = cutoff.stats)
@@ -253,16 +254,21 @@ findInteractions <- function(data, idents, ligand, receptor, stats = c("mean", "
   stopCluster(cl = cl)
   gc()
   message("Testing and adjusting")
-  interaction.perm <- 
+  interaction.pval <- 
   lapply(X = interaction.perm, FUN = function(x) interaction.null <= x) %>% 
     Reduce(f = "+") %>% 
     divide_by(n_perm) %>%
     p.adjust(method = p.adjust.method) %>%
     `dim<-`(dim(x = interaction.null)) %>%
     `dimnames<-`(dimnames(x = interaction.null))
+  to.return <- list(strength = interaction.null, pvalues = interaction.pval)
+  if(return.perm) {
+    message("Saving permutation result")
+    to.return <- c(to.return, permute_result = list(interaction.perm))
+  }
   if(emd){
-    return(list(strength = interaction.null, pvalues = interaction.perm, stats_null = stats.null, emd = emd.null))
+    return(c(to.return, stats_null = list(stats.null), emd = list(emd.null)))
   } else {
-    return(list(strength = interaction.null, pvalues = interaction.perm))
+    return(to.return)
   }
 }

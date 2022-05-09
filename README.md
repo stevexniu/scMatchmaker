@@ -21,4 +21,4 @@ See tutorial here:
 [scMatchmaker vignette](https://github.com/stevexniu/scMatchmaker/blob/master/vignettes/vignette.Rmd)
 
 
-© [Steve Niu](https://github.com/stevexniu) and [Landau Lab](https://www.landaulab.org) 
+© [X. Steve Niu](https://github.com/stevexniu) from [Landau Lab](https://www.landaulab.org) 

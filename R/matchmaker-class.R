@@ -30,6 +30,7 @@ setClassUnion(name = 'matrices', members = c("matrix", "dgCMatrix", "dsCMatrix")
 #'   \item raw_data, raw expression data.
 #'   \item stats_null, null interaction stength without earth mover's distance adjustment if emd=TRUE option is used.
 #'   \item emd, earth mover's distance similarity.
+#'   \item permute_result, list of permutation results if saved.
 #'   \item sketch_id, geometric sketching ID.
 #'   \item graph, graph visualization.
 #'   \item single_interaction, single gene-gene interaction table in the format of single interactions if Complexing function is called.
@@ -58,7 +59,7 @@ setClass(Class = "Matchmaker",
          )
 )
 
-setMethod(f = "show",signature = "Matchmaker",
+setMethod(f = "show", signature = "Matchmaker",
           definition = function(object){
             if(object@project_name == ""){
               cat("A Matchmaker object:", "\n")

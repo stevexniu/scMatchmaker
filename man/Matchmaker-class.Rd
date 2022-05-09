@@ -42,6 +42,7 @@ The Matchmaker object with the slot information listed as follow:
   \item raw_data, raw expression data.
   \item stats_null, null interaction stength without earth mover's distance adjustment if emd=TRUE option is used.
   \item emd, earth mover's distance similarity.
+  \item permute_result, list of permutation results if saved.
   \item sketch_id, geometric sketching ID.
   \item graph, graph visualization.
   \item single_interaction, single gene-gene interaction table in the format of single interactions if Complexing function is called.
@@ -52,6 +53,6 @@ The Matchmaker object with the slot information listed as follow:
   \item ..., additional slots for future use.
   }}
 
-\item{\code{command}}{Nested list of commands used.}
+\item{\code{command}}{Nested list of commands and scMatchmaker version used.}
 }}
 

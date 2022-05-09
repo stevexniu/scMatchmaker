@@ -1,4 +1,4 @@
-#' @include utils.R emd.R processing.R 
+#' @include utils.R models.R processing.R 
 #'
 NULL
 
@@ -76,6 +76,7 @@ Screening <- function(data, annotation, interaction, partner_a = 1, partner_b = 
 #' @param max_emd_pct Earth Mover's Distance above this percentile will be replaced with this percentile value. Default is 1.
 #' @param drop_zero Whether to drop all the zeros in the data when calculating EMD. Default is FALSE.
 #' @param cutoff.stats Cutoff used to calculate the statistics (mean or median). Default is NA. If set to 0, all 0 values will be removed when calculating mean or median.
+#' @param save.perm Whether to save permutation result. Default is FALSE.
 #' @param n_cores Number of cores used. Default is to use all cores - 1. See details \code{\link[parallel]{makeCluster}}.
 #' @param seed Random seed number for permutation. Default is 1.
 #' @return Returns a Matchmaker object.
@@ -84,7 +85,7 @@ Screening <- function(data, annotation, interaction, partner_a = 1, partner_b = 
 #' object <- Matchmaking(object, stats = "mean", emd = TRUE, n_perm = 100)
 #' }
 Matchmaking <- function(object, ident1 = NULL, ident2 = NULL, stats = c("mean", "median"), pair.fxn = c("+", "*"), emd = FALSE, nbins = 100, n_perm = 100, weighted = FALSE, 
-                        p.adjust.method = "none", min_emd_pct = 0, max_emd_pct = 1, drop_zero = FALSE, cutoff.stats = NA, n_cores = NULL, seed = 1){
+                        p.adjust.method = "none", min_emd_pct = 0, max_emd_pct = 1, drop_zero = FALSE, cutoff.stats = NA, save.perm = FALSE, n_cores = NULL, seed = 1){
   if(!(is.null(x = ident1) & is.null(x = ident2))){
     if(is.null(x = ident1)) ident1 <- levels(x = object@object@annotation[,1])
     if(is.null(x = ident2)) ident2 <- levels(x = object@object@annotation[,1])
@@ -99,12 +100,10 @@ Matchmaking <- function(object, ident1 = NULL, ident2 = NULL, stats = c("mean", 
   interactions <- findInteractions(data = data.use, idents = idents.use, ligand = object@interaction[,object@command$Screening[["partner_a"]]], 
                                    receptor = object@interaction[,object@command$Screening[["partner_b"]]], stats = stats, pair.fxn = pair.fxn, n_perm = n_perm, emd = emd, weighted = weighted,
                                    nbins = nbins, p.adjust.method = p.adjust.method, min_pct = min_emd_pct, max_pct = max_emd_pct, drop_zero = drop_zero, cutoff.stats = cutoff.stats, 
-                                   n_cores = n_cores, seed = seed)
+                                   return.perm = save.perm, n_cores = n_cores, seed = seed)
   object@strength <- asSparse(mat = interactions$strength, zero_percent = object@command$Screening[["zero_percent"]])
   object@pvalue <- asSparse(mat = interactions$pvalues, zero_percent = object@command$Screening[["zero_percent"]])
-  if(emd){
-    object@misc <- c(object@misc, interactions[3:4])
-  }
+  object@misc <- c(object@misc, interactions[-c(1:2)])
   object@command$Matchmaking <- logCommand()
   return(object)
 }
@@ -531,3 +530,49 @@ Merging <- function(object, strength_merge = c("max","average", "min"), pval_mer
   message("Merging finished, re-run Selecting(object, ...) if neccesary.")
   return(object)
 }
+
+#' Differential Interactions
+#'
+#' Conduct differential interaction analysis based on permutation similar to \code{\link[scMatchmaker]{Matchmaking}}.
+#' To use this feature, save.perm parameter in \code{\link[scMatchmaker]{Matchmaking}} has to be set to TRUE when running Matchmaking.
+#'  
+#' @param object Matchmaker object.
+#' @param interaction1 Cell-Cell interactions of interests.
+#' @param interaction2 Cell-Cell interactions to compare against. Default is NULL, all other cell types except the ones in interaction1 will be used.
+#' @param diff.thresh Differential interaction strength cutoff, default is 1.
+#' @param p.val.cutoff p value cutoff. Default is 0.05
+#' @param p.adjust.method p value adjustment method. Default is "none". See details \code{\link[stats]{p.adjust}}.
+#' @return A data.frame with interaction differences and p values.
+#' @importFrom magrittr %>% divide_by
+#' @importFrom Matrix colMeans
+#' @export
+#' @examples \dontrun{
+#' object <- Differing(object, interaction1 = "Macrophage|CAF", interaction2 = "Macrophage|Tumor")
+#' }
+Differing <- function(object, interaction1, interaction2 = NULL, diff.thresh = 1, p.val.cutoff = 0.05, p.adjust.method = "none"){
+  if(!all(interaction1 %in% rownames(x = object@strength))) stop(setdiff(x = interaction1, y = rownames(x = object@strength)), " in interaction1 not found.", call. = FALSE)
+  if(is.null(x = interaction2)) interaction2 <- setdiff(x = rownames(x = object@strength), y = interaction1)
+  if(!all(interaction2 %in% rownames(x = object@strength))) stop(setdiff(x = interaction1, y = rownames(x = object@strength)), " in interaction2 not found.", call. = FALSE)
+  if(is.null(x = object@misc$permute_result)) stop("Permutation results not saved, try setting save.perm=TRUE when running Matchmaking.", call. = FALSE)
+  if(is.null(x = object@command$Complexing)){
+    strength.null <- object@strength
+  } else {
+    strength.null <- object@misc$single_strength
+  }
+  interact.diff.null <- colMeans(x = strength.null[interaction1, ,drop=FALSE]) - colMeans(x = strength.null[interaction2, ,drop=FALSE])
+  interact.diff.abs <- abs(x = interact.diff.null)
+  interact.diff.pval <-
+    lapply(X = object@misc$permute_result, FUN = function(x){
+      interact.diff <- abs(x = colMeans(x = x[interaction1, ,drop=FALSE]) - colMeans(x = x[interaction2, ,drop=FALSE]))
+      interact.diff >= interact.diff.abs
+    }) %>%
+    Reduce(f = "+") %>%
+    divide_by(length(x = object@misc$permute_result)) %>%
+    p.adjust(method = p.adjust.method)
+  diff.data <- cbind.data.frame(Difference = interact.diff.null, p_value = interact.diff.pval, 
+                                row.names = make.names(names(x = interact.diff.null), unique = TRUE))
+  diff.data <- subset(x = diff.data, abs(Difference) >= diff.thresh & p_value <= p.val.cutoff)
+  diff.data <- diff.data[order(diff.data[["Difference"]], decreasing = TRUE),]
+  return(diff.data)
+}
+

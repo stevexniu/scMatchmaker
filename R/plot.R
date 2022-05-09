@@ -1,5 +1,5 @@
 #' @include utils.R
-#' @importFrom graphics hist legend lines points text
+#' @importFrom graphics plot hist legend lines points text
 #'
 NULL
 
@@ -664,3 +664,9 @@ scatterPlot <- function(data, idents, ident1, ident2, ligands, receptors, add.li
   }
   legend(legend.pos, legend = c("Ligand", "Receptor"), pch = c(ligand.pch, receptor.pch), col = c(ligand.col, receptor.col))
 }
+
+
+# Circos
+
+# Sankey
+

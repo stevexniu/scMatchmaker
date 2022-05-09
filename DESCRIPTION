@@ -1,7 +1,7 @@
 Package: scMatchmaker
 Title: Single Cell Matchmaker
 Version: 0.99.0
-Description: Identify cell-cell ligand-receptor interactions in single cell data using Earth Mover's Distance.
+Description: Identify cell-cell ligand-receptor interactions in single cell data.
 Authors@R:
     person(given = "Steve X.",
            family = "Niu",
@@ -18,8 +18,8 @@ Collate:
     'RcppExports.R'
     'data.R'
     'utils.R'
-    'emd.R'
     'processing.R'
+    'models.R'
     'matchmake.R'
     'matchmaker-class.R'
     'plot.R'
