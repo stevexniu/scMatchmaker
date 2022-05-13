@@ -10,7 +10,7 @@ Authors@R:
 Maintainer: Steve X. Niu <niuxsteve@gmail.com>
 BugReports: https://github.com/stevexniu/scMatchmaker/issues
 Depends: R (>= 3.5.0)
-License: GPL-3 | file LICENSE
+License: GPL-3 
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
