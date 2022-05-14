@@ -2,12 +2,12 @@ Package: scMatchmaker
 Title: Single Cell Matchmaker
 Version: 0.99.0
 Description: Identify cell-cell ligand-receptor interactions in single cell data.
-Authors@R:
-    person(given = "Steve X.",
+Authors@R: 
+    person(given = "X. Steve",
            family = "Niu",
            role = c("aut", "cre"),
-           email = "niuxsteve@gmail.com")
-Maintainer: Steve X. Niu <niuxsteve@gmail.com>
+           email = "xin2001@med.cornell.edu",
+           comment = c(ORCID = "0000-0001-7689-0941"))
 BugReports: https://github.com/stevexniu/scMatchmaker/issues
 Depends: R (>= 3.5.0)
 License: GPL-3 
