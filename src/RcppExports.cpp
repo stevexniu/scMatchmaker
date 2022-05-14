@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // CosineNormSparse
 Eigen::SparseMatrix<double> CosineNormSparse(Eigen::SparseMatrix<double> data, bool display_progress);
 RcppExport SEXP _scMatchmaker_CosineNormSparse(SEXP dataSEXP, SEXP display_progressSEXP) {

@@ -11,7 +11,7 @@ test_that("Zero one normalization", {
 test_that("Sparse matrix conversion", {
   test.res <- asSparse(matrix(1:9,3), 0.7)
   expect_is(test.res, "matrix")
-  test.res <- asSparse(matrix(c(rep(0,8),1),3), 0.7)
+  test.res <- asSparse(matrix(c(rep(0,5),1:4),3), 0.5)
   expect_is(test.res, c("dgCMatrix", "dsCMatrix"))
 })
 

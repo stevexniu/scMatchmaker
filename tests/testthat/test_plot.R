@@ -1,5 +1,4 @@
 # Test for plot
-skip_if(getRversion() > 4.0)
 context("Test Plot")
 load("../testdata/decidua.small.rda")
 
@@ -30,8 +29,7 @@ test_that("Test histogram plot", {
 })
 
 test_that("Test scatter plot", {
-  test.plot <- function() PlotScatter(decidua.small, ident1 = "EVT", ident2 = "dM1", ligands = "CD74", receptors = "MIF", 
+  test.plot <- function() PlotScatter(decidua.small, ident1 = "EVT", ident2 = "dM1", ligands = "CD74", receptors = "MIF",
                                       use_raw = FALSE, add.lines = TRUE, label.offset = -3)
   expect_doppelganger("PlotScatter", test.plot)
 })
-
