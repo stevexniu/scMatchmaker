@@ -3,3 +3,12 @@
 .travis.yml
 ^appveyor\.yml$
 ^codecov\.yml$
+.gitignore
+^\.git$
+^\.github$
+^docs$
+^pkgdown$
+^doc$
+^Meta$
+^_pkgdown\.yml$
+vignettes
