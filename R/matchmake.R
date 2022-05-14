@@ -543,7 +543,7 @@ Merging <- function(object, strength_merge = c("max","average", "min"), pval_mer
 #' @param p.val.cutoff p value cutoff. Default is 0.05
 #' @param p.adjust.method p value adjustment method. Default is "none". See details \code{\link[stats]{p.adjust}}.
 #' @return A data.frame with interaction differences and p values.
-#' @importFrom magrittr %>% divide_by
+#' @importFrom magrittr %>% divide_by add
 #' @importFrom Matrix colMeans
 #' @export
 #' @examples \dontrun{
@@ -566,7 +566,8 @@ Differing <- function(object, interaction1, interaction2 = NULL, diff.thresh = 1
       interact.diff <- abs(x = colMeans(x = x[interaction1, ,drop=FALSE]) - colMeans(x = x[interaction2, ,drop=FALSE]))
       interact.diff >= interact.diff.abs
     }) %>%
-    Reduce(f = "+") + 1 %>%
+    Reduce(f = "+") %>%
+    add(1) %>%
     divide_by(length(x = object@misc$permute_result) + 1) %>%
     p.adjust(method = p.adjust.method)
   diff.data <- cbind.data.frame(Difference = interact.diff.null, p_value = interact.diff.pval, 

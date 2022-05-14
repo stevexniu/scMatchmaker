@@ -215,7 +215,7 @@ calcEMD <- function(data, idents, ligand, receptor, nbins = 100, weighted = TRUE
 #' @return Returns a list contains interaction strength and pvalues, optionally the null strength and Earth Mover's Distance similarity.
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom magrittr %>% divide_by
+#' @importFrom magrittr %>% divide_by add
 #' @importFrom foreach foreach %dopar%
 findInteractions <- function(data, idents, ligand, receptor, stats = c("mean", "median"), pair.fxn = c("+", "*"),  n_perm = 100, emd = FALSE, nbins = 100, weighted = TRUE,
                              p.adjust.method = "none", threshold = 0, min_pct = 0, max_pct = 1, drop_zero = FALSE, cutoff.stats = NA, return.perm = FALSE, n_cores = NULL, seed = 1){
@@ -256,7 +256,8 @@ findInteractions <- function(data, idents, ligand, receptor, stats = c("mean", "
   message("Testing and adjusting")
   interaction.pval <- 
   lapply(X = interaction.perm, FUN = function(x) interaction.null <= x) %>% 
-    Reduce(f = "+") + 1 %>% 
+    Reduce(f = "+") %>% 
+    add(1) %>% 
     divide_by(n_perm + 1) %>%
     p.adjust(method = p.adjust.method) %>%
     `dim<-`(dim(x = interaction.null)) %>%
