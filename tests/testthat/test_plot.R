@@ -1,6 +1,7 @@
 # Test for plot
 context("Test Plot")
 load("../testdata/decidua.small.rda")
+library(vdiffr)
 
 test_that("Test spot plot", {
   test.plot <- PlotSpot(decidua.small, which.cell = 1:4, which.gene = 1:8, order = FALSE, do.return = FALSE)
