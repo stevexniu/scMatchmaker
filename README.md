@@ -2,7 +2,7 @@
 
 scMatchmaker
 =======
-Cell-Cell Interaction and Ligand-Receptor Discovery in Single Cell RNA Sequencing.
+Cell-Cell Interaction and Ligand-Receptor Discovery in Single Cell RNA Sequencing using Earth Mover's Distance.
 
 Installation
 ------------
