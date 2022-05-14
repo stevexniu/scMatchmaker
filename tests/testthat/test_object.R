@@ -11,7 +11,6 @@ test_that("Test Matchmaking", {
   expect_equal(obj.res@pvalue["EVT|EVT","ACVR2B_INHBA"], 1/3)
   obj.res <- Matchmaking(decidua.small, n_perm = 2, emd = TRUE, weighted = TRUE, nbins = 10, n_cores = 2)
   expect_equal(max(obj.res@strength), obj.res@strength["EVT|EVT","ACVR2B_INHBA"])
-  print(obj.res@pvalue["EVT|EVT","ACVR2B_INHBA"])
   expect_equal(obj.res@pvalue["EVT|EVT","ACVR2B_INHBA"], 1/3)
 })
 
