@@ -570,9 +570,9 @@ Differing <- function(object, interaction1, interaction2 = NULL, diff.thresh = 1
     add(1) %>%
     divide_by(length(x = object@misc$permute_result) + 1) %>%
     p.adjust(method = p.adjust.method)
-  diff.data <- cbind.data.frame(Difference = interact.diff.null, p_value = interact.diff.pval, 
-                                row.names = make.names(names(x = interact.diff.null), unique = TRUE))
-  diff.data <- subset(x = diff.data, abs(Difference) >= diff.thresh & p_value <= p.val.cutoff)
+  diff.data <- data.frame(Difference = interact.diff.null, p_value = interact.diff.pval, 
+                          row.names = make.names(names(x = interact.diff.null), unique = TRUE))
+  diff.data <- diff.data[abs(diff.data[["Difference"]]) >= diff.thresh & diff.data[["p_value"]] <= p.val.cutoff,]
   diff.data <- diff.data[order(diff.data[["Difference"]], decreasing = TRUE),]
   return(diff.data)
 }
