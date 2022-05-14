@@ -5,7 +5,8 @@
 #' It allows users to input customized interaction information or load the CellPhoneDB ligand-receptor database, 
 #' and provides essential visualization tools.
 #' 
-#' @details See \href{https://github.com/stevexniu/scMatchmaker/blob/master/vignettes/vignette.Rmd}{vignette} for an introduction to the package.
 #' @docType package
-#' @name scMatchmaker
-NULL
+#' @name scMatchmaker-package
+#' @rdname scMatchmaker-package
+#' @aliases scMatchmaker-package
+"_PACKAGE"

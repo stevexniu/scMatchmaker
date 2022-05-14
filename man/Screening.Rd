@@ -47,3 +47,4 @@ Screen for interactiins and initialize a Matchmaker object.
 object <- Screening(data = data.use, annotation = idents.use, interaction = interaction.data)
 }
 }
+\concept{matchmake}

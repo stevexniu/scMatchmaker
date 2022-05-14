@@ -27,3 +27,4 @@ Non-significant interactions will be either removed or set to zero.
 object <- Selecting(object, pval.cutoff = 0.05, strength.pct = 0.1)
 }
 }
+\concept{matchmake}

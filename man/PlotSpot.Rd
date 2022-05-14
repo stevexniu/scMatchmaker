@@ -87,3 +87,4 @@ The color of the bars and dots represents the p values.
  PlotSpot(object, which.cell = 1:10, which.gene = 1:10)
 }
 }
+\concept{plot}

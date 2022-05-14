@@ -48,3 +48,4 @@ Therefore COL9A2_ITGB1:ITGA2 represents interactions between COL9A2 and ITGB1:IT
 object <- Complexing(object, strength_comb = "min", pval_comb = "max")
 }
 }
+\concept{matchmake}

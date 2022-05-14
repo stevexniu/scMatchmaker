@@ -23,3 +23,4 @@ If \code{\link[scMatchmaker]{Selecting}} was run, it will convert the data in @s
 convert.data <- Converting(object)
 }
 }
+\concept{matchmake}

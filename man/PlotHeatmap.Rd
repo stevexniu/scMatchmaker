@@ -112,3 +112,4 @@ Plot a interaction heatmap.
  PlotHeatmap(object, data = "strength", aggregate = "row")
 }
 }
+\concept{plot}

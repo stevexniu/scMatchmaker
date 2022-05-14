@@ -40,3 +40,4 @@ After merging, they will be combined as one undirected cell-cell interaction bet
 object <- Merging(object, strength_merge = "average", pval_merge = "max")
 }
 }
+\concept{matchmake}

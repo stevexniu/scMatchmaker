@@ -39,3 +39,4 @@ Normalize count or other data.
 normalized.data <- Normalization(data)
 }
 }
+\concept{processing}

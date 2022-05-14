@@ -44,6 +44,7 @@ setClassUnion(name = 'matrices', members = c("matrix", "dgCMatrix", "dsCMatrix")
 #' @name Matchmaker-class
 #' @rdname Matchmaker-class
 #' @exportClass Matchmaker
+#' @concept matchmaker-class
 #'
 setClass(Class = "Matchmaker",
          slots = c(

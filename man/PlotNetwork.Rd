@@ -86,3 +86,4 @@ Generate a network plot of interactions.
  PlotNetwork(object, aggregate = "cell")
 }
 }
+\concept{plot}

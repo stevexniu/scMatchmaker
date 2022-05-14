@@ -76,3 +76,4 @@ Generate a scatter plot of interactions.
  PlotScatter(object, ident1 = "Tumor", ident2 = "Immune", ligands = "CD274", receptors = "PDCD1")
 }
 }
+\concept{plot}

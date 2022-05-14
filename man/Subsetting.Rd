@@ -41,3 +41,4 @@ interaction.mac <- Subsetting(object, ident1 = "Macrophage")
 interaction.csf <- Subsetting(object, partner_a = "CSF1")
 }
 }
+\concept{matchmake}

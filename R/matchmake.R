@@ -21,6 +21,7 @@ NULL
 #' @importFrom methods new
 #' @importFrom utils read.csv packageVersion
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Screening(data = data.use, annotation = idents.use, interaction = interaction.data)
 #' }
@@ -81,6 +82,7 @@ Screening <- function(data, annotation, interaction, partner_a = 1, partner_b = 
 #' @param seed Random seed number for permutation. Default is 1.
 #' @return Returns a Matchmaker object.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Matchmaking(object, stats = "mean", emd = TRUE, n_perm = 100)
 #' }
@@ -119,6 +121,7 @@ Matchmaking <- function(object, ident1 = NULL, ident2 = NULL, stats = c("mean", 
 #' @param filter.cells Whether to filter the cells. Default is TRUE.
 #' @return Returns a Matchmaker object with filtered interactions saved in @selected slot.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Selecting(object, pval.cutoff = 0.05, strength.pct = 0.1)
 #' }
@@ -141,6 +144,7 @@ Selecting <- function(object, pval.cutoff = 0.05, strength.pct = 0.1, filter.cel
 #' @param selected Use selected data if calculated. Default is TRUE.
 #' @return Returns a ranked list of interactions.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' convert.data <- Converting(object)
 #' }
@@ -173,6 +177,7 @@ Converting <- function(object, selected = TRUE){
 #' @param which_python Path to python3 used.
 #' @return Returns a Matchmaker object.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Sketching(object, size = 2000)
 #' }
@@ -209,6 +214,7 @@ Sketching <- function(object, cell_id = NULL, downsampling = TRUE, size = 2000, 
 #'                        If FALSE, ident2 with ligands and ident1 with receptor will be included. Default is TRUE.
 #' @return Returns a new Matchmaker object.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' # subset all Macrophage related interactions
 #' interaction.mac <- Subsetting(object, ident1 = "Macrophage")
@@ -273,6 +279,7 @@ Subsetting <- function(object, ident1 = NULL, ident2 = NULL, partner_a = NULL, p
 #'   }
 #' @importFrom utils write.csv
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' Saving(object, file_name = "decidua")
 #' }
@@ -326,6 +333,7 @@ Saving <- function(object, file_name, dir = NULL, selected = FALSE){
 #'   }
 #' @return Returns a Matchmaker object.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' # For example, if CellPhoneDB data is used via LoadCellPhoneDB function, 
 #' # the subunits are named as subunit_a_1, subunit_a_2 ...
@@ -442,6 +450,7 @@ Complexing <- function(object, subunit_a = c("subunit_a_1","subunit_a_2","subuni
 #'   }
 #' @return Returns a Matchmaker object.
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' # reset to single gene-tene interaction
 #' object <- Resetting(object, by = "complex")
@@ -493,6 +502,7 @@ Resetting <- function(object, by = c("complex", "merge")){
 #' @importFrom matrixStats colMaxs colMins colMeans2
 #' @importFrom utils combn
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Merging(object, strength_merge = "average", pval_merge = "max")
 #' }
@@ -546,6 +556,7 @@ Merging <- function(object, strength_merge = c("max","average", "min"), pval_mer
 #' @importFrom magrittr %>% divide_by add
 #' @importFrom Matrix colMeans
 #' @export
+#' @concept matchmake
 #' @examples \dontrun{
 #' object <- Differing(object, interaction1 = "Macrophage|CAF", interaction2 = "Macrophage|Tumor")
 #' }
@@ -576,4 +587,3 @@ Differing <- function(object, interaction1, interaction2 = NULL, diff.thresh = 1
   diff.data <- diff.data[order(diff.data[["Difference"]], decreasing = TRUE),]
   return(diff.data)
 }
-

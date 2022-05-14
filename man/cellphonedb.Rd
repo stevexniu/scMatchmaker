@@ -26,4 +26,5 @@ cellphonedb
 \description{
 A preloaded \href{https://www.cellphonedb.org/}{CellPhoneDB} database of ligand-receptor interaction pairs.
 }
+\concept{data}
 \keyword{datasets}

@@ -1,7 +1,5 @@
 ---
-title: 'scMatchmaker: Uncover Cell-Cell Interactions in scRNA-seq'
-author: Steve X. Niu^[Tri-Institutional Training Program in Computational Biology
-  and Medicine, stevexniu@gmail.com]
+title: 'Uncover Cell-Cell Interactions in scRNA-seq'
 date: 'Last Run: `r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
@@ -13,30 +11,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-<style type="text/css">
-h1.title {
-  font-size: 30px;
-  color: DarkRed;
-  text-align: justify;
-}
-body, td {
-  font-size: 16px;
-  text-align: justify;
-}
-code.r{
-  font-size: 14px;
-  text-align: justify;
-}
-pre {
-  font-size: 14px
-  text-align: justify;
-}
-</style>
-***
 
 ```{r, include=FALSE}
 options(width = 150)
 knitr::opts_chunk$set(
+  collapse = TRUE,
   tidy = FALSE,
   message = FALSE,
   warning = FALSE
@@ -154,6 +133,7 @@ proc.time() - ptm
 decidua.interaction
 ```
 
+
 We run the unweighted EMD model with 100 permutations.
 
 ```{r matchmaking.emd.unweighted, message=FALSE}
@@ -199,30 +179,36 @@ decidua.interaction.emd@pvalue[1:5,1:5]
 </details>
 \  
 
-If interaction complexes information is provided in the `@interaction` slot, for example, in the preloaded `cellphonedb` database, the subunits are listed with column names `subunit_a_1`, `subunit_a_2`, `subunit_a_3` and `subunit_b_1`, `subunit_b_2`, `subunit_b_3` respectively. We can calculate the complex-complex interactions by using `Complexing` function. It calculates the complex interactions from its subunits with the following options:
-    + `strength_comb` Method to combine subunits strengths. 
-      + `min`, minimum strength of its subunits (Default).
-      + `average`, average strength of its subunits.
-      + `max`, maximum strength of its subunits.
-    + `pval_comb` Method to combine subunits p values.
-      + `max`, maximum p value of its subunits (Default).
-      + `average`, average p value of its subunits.
-      + `min`, minimum p value of its subunits.
+If interaction complexes information is provided in the `@interaction` slot, for example, in the preloaded `cellphonedb` database, the subunits are listed with column names `subunit_a_1`, `subunit_a_2`, `subunit_a_3` and `subunit_b_1`, `subunit_b_2`, `subunit_b_3` respectively. 
+
+We can calculate the complex-complex interactions by using `Complexing` function. It calculates the complex interactions from its subunits with the following options:
+
+* `strength_comb` Method to combine subunits strengths. 
+    + `min`, minimum strength of its subunits (Default).
+    + `average`, average strength of its subunits.
+    + `max`, maximum strength of its subunits.
+* `pval_comb` Method to combine subunits p values.
+    + `max`, maximum p value of its subunits (Default).
+    + `average`, average p value of its subunits.
+    + `min`, minimum p value of its subunits.
 
 ```{r complexing}
 # Please note that if Selecting function is called before Complexing, you will need to re-run the Selecting step.
 decidua.interaction.emd <- Complexing(decidua.interaction.emd)
 ```
 
-We can also merge directed (one-way) interactions into undirected (two-way) interactionsc using `Merging` function. For example, before merging, _DC1|dM1_ and _dM1|DC1_ represents two different cell-cell interactions: DC1 expresses ligands and dM1 expresses receptors, versus, dM1 expresses ligands and DC1 expresses receptors. After merging, they will be combined as one undirected cell-cell interaction between DC1 and dM1. The `Merging` function takes following arguments similar to `Complexing`:
-    + `strength_merge` Method to merge directed interaction strengths. 
-      + `max`, maximum strength of directed interactions (Default).
-      + `average`, average strength of directed interactions.
-      + `min`, minimum strength of directed interaction.
-    + `pval_merge` Method to directed interactions p values.
-      + `min`, minimum p value of directed interactions (Default).
-      + `average`, average p value of directed interactions.
-      + `max`, maximum p value of directed interactions.
+We can also merge directed (one-way) interactions into undirected (two-way) interactionsc using `Merging` function. For example, before merging, _DC1|dM1_ and _dM1|DC1_ represents two different cell-cell interactions: DC1 expresses ligands and dM1 expresses receptors, versus, dM1 expresses ligands and DC1 expresses receptors. After merging, they will be combined as one undirected cell-cell interaction between DC1 and dM1. 
+
+The `Merging` function takes following arguments similar to `Complexing`:
+
+* `strength_merge` Method to merge directed interaction strengths. 
+    + `max`, maximum strength of directed interactions (Default).
+    + `average`, average strength of directed interactions.
+    + `min`, minimum strength of directed interaction.
+* `pval_merge` Method to directed interactions p values.
+    + `min`, minimum p value of directed interactions (Default).
+    + `average`, average p value of directed interactions.
+    + `max`, maximum p value of directed interactions.
       
 ```{r merging}
 # Merge the directed one-way interactions into the undirected two-way interactions.
@@ -408,7 +394,7 @@ PlotHistogram(object = decidua.interaction.emd, ligand = "PGF", receptor = "FLT1
 ```
 
 Lastly, we compare the base model (x axis) against the EMD model (y axis). We see that the baseline model creates quite a few false-positives (dark red dots in lower right).
-```{r comparison, fig.height=3, fig.width=4, fig.align="center"}
+```{r comparison, fig.height=6, fig.width=6, fig.align="center"}
 plot(x = decidua.interaction@strength, 
      y = decidua.interaction.emd@strength, 
      xlab = "Base Model", ylab = "EMD Adjusted", 

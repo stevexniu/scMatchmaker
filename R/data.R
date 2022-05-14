@@ -4,6 +4,7 @@
 #' It contains the 726 EVT, 953 dS2, 788 dNK1, and 533 dM1 cells.
 #' @format A sparse matrix with logTPM normalized transcript counts of 947 rows (ligand/receptor genes) and 3000 columns (cells).
 #' @source \url{https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-6701/}
+#' @concept data
 "decidua"
 
 #' Decidua Single Cell RNA-seq Annotation Metadata 
@@ -18,6 +19,7 @@
 #'   \item{annotation}{cell type annotation}
 #' }
 #' @source \url{https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-6701/}
+#' @concept data
 "decidua.annotation"
 
 #' CellPhoneDB Database
@@ -35,4 +37,5 @@
 #'   \item{subunit_b_1, subunit_b_2, subunit_b_3}{interaction partner b complex subunits} 
 #' }
 #' @source \url{https://www.cellphonedb.org/}
+#' @concept data
 "cellphonedb"

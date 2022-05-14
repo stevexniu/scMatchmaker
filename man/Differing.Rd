@@ -38,3 +38,4 @@ To use this feature, save.perm parameter in \code{\link[scMatchmaker]{Matchmakin
 object <- Differing(object, interaction1 = "Macrophage|CAF", interaction2 = "Macrophage|Tumor")
 }
 }
+\concept{matchmake}

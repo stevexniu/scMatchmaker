@@ -20,6 +20,7 @@ NULL
 #' @return Returns the interaction pairs data.frame with the first two columns correspond to interacting partners.
 #' @importFrom utils read.csv
 #' @export
+#' @concept processing
 #' @examples \dontrun{
 #' # CellPhoneDB URLs 
 #' pair.data <- LoadCellPhoneDB(
@@ -124,6 +125,7 @@ LoadCellPhoneDB <- function(interaction_input, gene_input, complex_input, gene.s
 #' @param verbose Whether to display a process bar for cosine normalization. Default is FALSE.
 #' @return Returns the normalized data.
 #' @export
+#' @concept processing
 #' @importFrom Matrix nnzero Matrix
 #' @examples \dontrun{
 #' normalized.data <- Normalization(data)

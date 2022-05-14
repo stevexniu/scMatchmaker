@@ -56,3 +56,4 @@ The Matchmaker object with the slot information listed as follow:
 \item{\code{command}}{Nested list of commands and scMatchmaker version used.}
 }}
 
+\concept{matchmaker-class}

@@ -1,0 +1,64 @@
+url: https://stevexniu.github.io/scMatchmaker/
+
+destination: docs
+
+template:
+  package: preferably
+  params:
+    bootswatch: united
+    toggle: manual
+
+navbar:
+  structure:
+    left:
+    - articles
+    - reference
+    - news
+    right: github
+  components:
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: News
+      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/stevexniu/scMatchmaker/
+      aria-label: github
+    articles:
+      text: Vignettes
+      menu:
+      - text: Get started
+        href: articles/example.html
+
+reference:
+- title: Data processing
+  desc: Data processing functions
+- contents:
+  - has_concept("processing")
+
+- title: Matchmaking
+  desc: Core matchmaking functions
+- contents:
+  - has_concept("matchmake")
+
+- title: Visualization
+  desc: Graphical functions
+- contents:
+  - has_concept("plot")
+
+- title: Datasets
+  desc: Available datasets
+- contents:
+  - has_concept("data")
+
+- title: Matchmaker Class
+  desc: Matchmaker S4 object information
+- contents:
+  - has_concept("matchmaker-class")
+
+- title: Package Information
+- contents:
+  - scMatchmaker-package
+

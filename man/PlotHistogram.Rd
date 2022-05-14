@@ -53,3 +53,4 @@ Plot a histogram for a pair of ligand and receptor.
  ligand.ident = "Tumor", receptor = "Macrophages")
 }
 }
+\concept{plot}

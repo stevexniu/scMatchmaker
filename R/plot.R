@@ -39,6 +39,7 @@ NULL
 #' @param do.return Whether to return the data used to plot. Default is FALSE.
 #' @return A ggplot object or a list with strength and p value data used to generate the plot. 
 #' @export
+#' @concept plot
 #' @examples \dontrun{
 #'  PlotSpot(object, which.cell = 1:10, which.gene = 1:10)
 #' }
@@ -112,6 +113,7 @@ PlotSpot <- function(object, which.cell = NULL, which.gene = NULL, aggregate = c
 #' @param ... Additioanl arguments passed to \code{\link[gplots]{heatmap.2}}.
 #' @return Plot a heatmap and optionally return the data used to generate the plot.
 #' @export
+#' @concept plot
 #' @examples \dontrun{
 #'  PlotHeatmap(object, data = "strength", aggregate = "row")
 #' }
@@ -167,6 +169,7 @@ PlotHeatmap <- function(object, data = c("strength","pvalue","data"), which.cell
 #' @param ... Additional argument passing to \code{\link[graphics]{hist}}.	
 #' @return Plot a histogram plot.
 #' @export
+#' @concept plot
 #' @examples \dontrun{
 #'  PlotHistogram(object, ligand = "CSF1", receptor = "CSF1R", 
 #'  ligand.ident = "Tumor", receptor = "Macrophages")
@@ -180,8 +183,6 @@ PlotHistogram <- function(object, ligand, receptor, ligand.ident, receptor.ident
   histogramPlot(data = object@data, idents = object@annotation[,1], ligand = ligand, receptor = receptor, ligand.ident = ligand.ident, receptor.ident = receptor.ident, 
                 breaks = breaks, nbins = nbins, freq = freq, cols.use = cols.use, alpha = alpha, ...)
 }
-
-
 
 #' Interaction Network Plot
 #'
@@ -214,6 +215,7 @@ PlotHistogram <- function(object, ligand, receptor, ligand.ident, receptor.ident
 #' @param ... Additioanl arguments passed to \code{\link[qgraph]{qgraph}}.
 #' @return Return a network plot of interactions.
 #' @export
+#' @concept plot
 #' @examples \dontrun{
 #'  PlotNetwork(object, aggregate = "cell")
 #' }
@@ -264,6 +266,7 @@ PlotNetwork <- function(object, selected = FALSE, which.cell = NULL, which.gene 
 #' @param ... Additioanl arguments passed to \code{\link[base]{plot}}.
 #' @return Return a scatter plot of interactions.
 #' @export
+#' @concept plot
 #' @examples \dontrun{
 #'  PlotScatter(object, ident1 = "Tumor", ident2 = "Immune", ligands = "CD274", receptors = "PDCD1")
 #' }
@@ -665,8 +668,6 @@ scatterPlot <- function(data, idents, ident1, ident2, ligands, receptors, add.li
   legend(legend.pos, legend = c("Ligand", "Receptor"), pch = c(ligand.pch, receptor.pch), col = c(ligand.col, receptor.col))
 }
 
+# Circos not implemented 
 
-# Circos
-
-# Sankey
-
+# Sankey not implemented

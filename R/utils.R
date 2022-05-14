@@ -178,4 +178,3 @@ logCommand <- function(pos = 1, frame = 1){
   argument.list$Time <- Sys.time()
   return(argument.list)
 }
-

@@ -78,3 +78,4 @@ Run matchmaker to Identify cell-cell interactions.
 object <- Matchmaking(object, stats = "mean", emd = TRUE, n_perm = 100)
 }
 }
+\concept{matchmake}

@@ -54,4 +54,3 @@ Suggests:
     testthat,
     vdiffr,
     covr
-VignetteBuilder: knitr
