@@ -256,8 +256,8 @@ findInteractions <- function(data, idents, ligand, receptor, stats = c("mean", "
   message("Testing and adjusting")
   interaction.pval <- 
   lapply(X = interaction.perm, FUN = function(x) interaction.null <= x) %>% 
-    Reduce(f = "+") %>% 
-    divide_by(n_perm) %>%
+    Reduce(f = "+") + 1 %>% 
+    divide_by(n_perm + 1) %>%
     p.adjust(method = p.adjust.method) %>%
     `dim<-`(dim(x = interaction.null)) %>%
     `dimnames<-`(dimnames(x = interaction.null))

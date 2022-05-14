@@ -566,8 +566,8 @@ Differing <- function(object, interaction1, interaction2 = NULL, diff.thresh = 1
       interact.diff <- abs(x = colMeans(x = x[interaction1, ,drop=FALSE]) - colMeans(x = x[interaction2, ,drop=FALSE]))
       interact.diff >= interact.diff.abs
     }) %>%
-    Reduce(f = "+") %>%
-    divide_by(length(x = object@misc$permute_result)) %>%
+    Reduce(f = "+") + 1 %>%
+    divide_by(length(x = object@misc$permute_result) + 1) %>%
     p.adjust(method = p.adjust.method)
   diff.data <- cbind.data.frame(Difference = interact.diff.null, p_value = interact.diff.pval, 
                                 row.names = make.names(names(x = interact.diff.null), unique = TRUE))
