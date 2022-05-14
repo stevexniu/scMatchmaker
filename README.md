@@ -1,4 +1,4 @@
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/stevexniu/scMatchmaker?branch=main&svg=true)](https://ci.appveyor.com/project/stevexniu/scMatchmaker) [![codecov](https://codecov.io/gh/stevexniu/scMatchmaker/branch/main/graph/badge.svg?token=LsMOwlNUgP)](https://codecov.io/gh/stevexniu/scMatchmaker) [![R-CMD-check](https://github.com/stevexniu/scMatchmaker/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stevexniu/scMatchmaker/actions/workflows/R-CMD-check.yaml)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/stevexniu/scMatchmaker?branch=main&svg=true)](https://ci.appveyor.com/project/stevexniu/scMatchmaker) [![codecov](https://codecov.io/gh/stevexniu/scMatchmaker/branch/main/graph/badge.svg?token=LsMOwlNUgP)](https://codecov.io/gh/stevexniu/scMatchmaker) [![R-CMD-check](https://github.com/stevexniu/scMatchmaker/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/stevexniu/scMatchmaker/actions/workflows/R-CMD-check.yaml)
 
 scMatchmaker
 =======
