@@ -14,7 +14,7 @@ scMatchmaker v0.99.0
 Usage
 -----
 See tutorial in ```vignettes/example.Rmd```
-or [scMatchmaker Reference](https://stevexniu.github.io/scMatchmaker/) and [Get Started](https://stevexniu.github.io/scMatchmaker/articles/get_started.html)
+or [scMatchmaker Reference](https://stevexniu.github.io/scMatchmaker/) and [Get Started](https://stevexniu.github.io/scMatchmaker/articles/example.html)
 
 
 © [X. Steve Niu](https://github.com/stevexniu) from [Landau Lab](https://www.landaulab.org) 
